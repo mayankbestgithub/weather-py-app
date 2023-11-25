@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Welcome to Weather App {% endblock %}</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" name="location"
+                   placeholder="Enter the location" class="form-control"
+                   value="{{ request.form['location'] }}"></input>
+        </div>
+    
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+    {% if response!= ' ' and response.cod != '404' %}
+        <div>
+            <span> The weather in {{response["name"]}} is {{response["weather"][0]["description"]}}<img src="https://openweathermap.org/img/wn/{{response['weather'][0]['icon']}}@2x.png" alt = "Weather icon" /></span>
+            <span>, The temperature is {{response["main"]["temp"]}}</span>
+            <span>, Humidity is {{response["main"]["humidity"]}}</span>
+            <span>, Speed is {{response["wind"]["speed"]}}</span>
+        </div>
+    {%  elif response!= ' ' and response.cod == '404'  %}
+        <div> Data Not found!</div>      
+    {% endif     %}
+{% endblock %}
